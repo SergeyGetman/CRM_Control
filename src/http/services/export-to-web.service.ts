@@ -88,7 +88,7 @@ export const getExportHistoryList = async (useruid: string, params?: QueryParams
 
 export const exportTaskScheduleDelete = async (taskuid: string) => {
     if (!taskuid || typeof taskuid !== "string" || taskuid.trim() === "") {
-        // eslint-disable-next-line no-console
+         // eslint-disable-next-line no-console
         console.error("incorrect taskuid", taskuid);
         return {
             status: "Error",
