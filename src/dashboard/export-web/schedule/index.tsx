@@ -20,7 +20,7 @@ import {
 import "./index.css";
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 import { Checkbox } from "primereact/checkbox";
-import { defaultExportWebScheduleList, ExportWebScheduleList } from "common/models/export-web";
+import { ExportWebScheduleList } from "common/models/export-web";
 import { DatatableQueries, initialDataTableQueries } from "common/models/datatable-queries";
 import { QueryParams } from "common/models/query-params";
 import { ExportWebUserSettings, ServerUserSettings, TableState } from "common/models/user";
@@ -28,7 +28,6 @@ import { getUserSettings, setUserSettings } from "http/services/auth-user.servic
 import { Status } from "common/models/base-response";
 import { useToast } from "dashboard/common/toast";
 import { ConfirmModal } from "dashboard/common/dialog/confirm";
-import { action } from "mobx";
 
 interface ScheduleColumnProps extends ColumnProps {
     field: keyof ExportWebScheduleList;
@@ -240,20 +239,14 @@ export const ExportSchedule = (): ReactElement => {
         setActiveScheduleColumns(sortedValue);
     };
 
-    let taskuid: ExportWebScheduleList = { ...defaultExportWebScheduleList };
 
     const handleTaskAction = useCallback(
         (taskuid: string, action: ExportWebScheduleAction) => {
             let actionPromise;
-            // eslint-disable-next-line no-console
-            console.log("action", action);
-            // eslint-disable-next-line no-console
-            console.log("taskuid", taskuid);
             switch (action) {
                 case ExportWebScheduleAction.PAUSE:
                     actionPromise = exportTaskSchedulePause(taskuid);
-                    // eslint-disable-next-line no-console
-                    console.log("exportTaskSchedulePause", actionPromise);
+
                     toast.current?.show({
                         severity: "success",
                         summary: "Success",
@@ -303,7 +296,8 @@ export const ExportSchedule = (): ReactElement => {
                 }
             });
         },
-        [taskuid, action]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [ lazyState, toast]
     );
 
     return (
