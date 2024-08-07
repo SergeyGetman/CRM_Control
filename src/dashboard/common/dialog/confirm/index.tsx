@@ -40,6 +40,7 @@ export const ConfirmModal = ({
         onHide();
     };
 
+
     const showTemplate = () => {
         confirmDialog({
             header: (
